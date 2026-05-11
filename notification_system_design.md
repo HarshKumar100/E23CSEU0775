@@ -218,6 +218,27 @@ Response 500:
 ### GET /api/notifications?notification_type=Placement
 Description: Filter notifications by type. This uses the same paginated endpoint so frontend state stays simple.
 
+## Stage 6
+
+Priority Inbox: top-N unread notifications
+
+Approach:
+- Weight mapping: `Placement` = 3, `Result` = 2, `Event` = 1.
+- Score each unread notification as: `score = weight * 1e9 - ageSeconds` where `ageSeconds` is seconds since the notification timestamp. This ensures higher-weight types rank above lower ones, and among equal weight newer items rank higher.
+- Algorithm: fetch notifications from the external Notification API (no DB required), filter unread, compute score, sort by score and take top-N (default 10). Sorting an in-memory list of size M costs O(M log M); for very large streams use a min-heap of size N to maintain top-N in O(M log N).
+
+Implementation details:
+- Added `tools/topPriority.js` — a Node script that calls the external API (`http://4.224.186.213/evaluation-service/notifications`), computes the top 10 unread notifications, prints them to stdout and writes an SVG file `priority_top10.svg` containing the list (suitable as a screenshot).
+- The script tolerates a few response shapes: `[{...}]`, `{ data: { notifications: [...] } }`, or `{ notifications: [...] }`.
+
+Maintaining top-N for a live stream:
+- Use a bounded min-heap (priority queue) sized N. For each new notification, compute its score and push to the heap; if heap size > N, pop the smallest. This keeps memory O(N) and each insertion O(log N).
+- For distributed systems, maintain per-partition top-N and merge them (heap-merge) periodically.
+
+How to run locally:
+1. From the repository root run `node tools/topPriority.js` (requires Node.js installed). The script will produce `priority_top10.svg` and print the top notifications.
+
+
 Headers:
 ```http
 Content-Type: application/json
