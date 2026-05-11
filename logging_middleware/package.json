@@ -1,0 +1,22 @@
+{
+  "name": "@campus-notify/logging-middleware",
+  "version": "1.0.0",
+  "description": "Reusable Winston logger and Express HTTP logger for the campus notification platform.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": [
+    "winston",
+    "logging",
+    "morgan",
+    "notifications"
+  ],
+  "author": "Campus Notification Platform",
+  "license": "MIT",
+  "dependencies": {
+    "morgan": "^1.10.0",
+    "winston": "^3.17.0",
+    "winston-daily-rotate-file": "^5.0.0"
+  }
+}

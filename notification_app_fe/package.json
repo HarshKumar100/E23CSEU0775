@@ -1,0 +1,28 @@
+{
+  "name": "notification_app_fe",
+  "version": "1.0.0",
+  "private": true,
+  "description": "React frontend for the campus notification platform.",
+  "scripts": {
+    "start": "npm run build && vite preview --host 0.0.0.0 --port 3000 --strictPort",
+    "dev": "vite --host 0.0.0.0 --port 3000 --strictPort",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.13.5",
+    "@emotion/styled": "^11.13.5",
+    "@mui/icons-material": "^5.16.14",
+    "@mui/material": "^5.16.14",
+    "axios": "^1.7.9",
+    "date-fns": "^4.1.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.28.1",
+    "socket.io-client": "^4.8.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.4",
+    "vite": "^6.0.7"
+  }
+}
